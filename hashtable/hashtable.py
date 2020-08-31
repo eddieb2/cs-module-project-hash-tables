@@ -21,7 +21,8 @@ class HashTable:
     """
 
     def __init__(self, capacity):
-        # Your code here
+        self.capacity = capacity
+        self.arr = [None for i in range(self.capacity)]
 
 
     def get_num_slots(self):
@@ -35,7 +36,7 @@ class HashTable:
         Implement this.
         """
         # Your code here
-
+        pass
 
     def get_load_factor(self):
         """
@@ -44,7 +45,7 @@ class HashTable:
         Implement this.
         """
         # Your code here
-
+        pass
 
     def fnv1(self, key):
         """
@@ -54,7 +55,7 @@ class HashTable:
         """
 
         # Your code here
-
+        pass
 
     def djb2(self, key):
         """
@@ -63,7 +64,12 @@ class HashTable:
         Implement this, and/or FNV-1.
         """
         # Your code here
+        hash = 0
 
+        for char in key:
+            hash += ord(char)
+
+        return  hash % self.capacity
 
     def hash_index(self, key):
         """
@@ -73,6 +79,7 @@ class HashTable:
         #return self.fnv1(key) % self.capacity
         return self.djb2(key) % self.capacity
 
+    # __setitem__
     def put(self, key, value):
         """
         Store the value with the given key.
@@ -82,7 +89,7 @@ class HashTable:
         Implement this.
         """
         # Your code here
-
+        pass
 
     def delete(self, key):
         """
@@ -93,8 +100,9 @@ class HashTable:
         Implement this.
         """
         # Your code here
+        pass
 
-
+    #__getitem__
     def get(self, key):
         """
         Retrieve the value stored with the given key.
@@ -104,7 +112,7 @@ class HashTable:
         Implement this.
         """
         # Your code here
-
+        pass
 
     def resize(self, new_capacity):
         """
@@ -114,7 +122,7 @@ class HashTable:
         Implement this.
         """
         # Your code here
-
+        pass
 
 
 if __name__ == "__main__":
