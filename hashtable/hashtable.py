@@ -2,6 +2,7 @@ class HashTableEntry:
     """
     Linked List hash table key/value pair
     """
+
     def __init__(self, key, value):
         self.key = key
         self.value = value
@@ -23,7 +24,6 @@ class HashTable:
     def __init__(self, capacity):
         self.capacity = capacity
         self.arr = [None for i in range(self.capacity)]
-
 
     def get_num_slots(self):
         """
@@ -69,14 +69,14 @@ class HashTable:
         for char in key:
             hash += ord(char)
 
-        return  hash % self.capacity
+        return hash
 
     def hash_index(self, key):
         """
         Take an arbitrary key and return a valid integer index
         between within the storage capacity of the hash table.
         """
-        #return self.fnv1(key) % self.capacity
+        # return self.fnv1(key) % self.capacity
         return self.djb2(key) % self.capacity
 
     # __setitem__
@@ -88,8 +88,13 @@ class HashTable:
 
         Implement this.
         """
-        # Your code here
-        pass
+
+        ##### Your code here
+
+        # find the index
+        index = self.hash_index(key)
+        # set the value to that index
+        self.arr[index] = value
 
     def delete(self, key):
         """
@@ -99,10 +104,15 @@ class HashTable:
 
         Implement this.
         """
-        # Your code here
-        pass
 
-    #__getitem__
+        ##### Your code here
+
+        # find the index
+        index = self.hash_index(key)
+        # set value to None at found index
+        self.arr[index] = None
+
+    # __getitem__
     def get(self, key):
         """
         Retrieve the value stored with the given key.
@@ -111,8 +121,13 @@ class HashTable:
 
         Implement this.
         """
-        # Your code here
-        pass
+
+        ##### Your code here
+
+        # find the index
+        index = self.hash_index(key)
+        # return the value at the found index
+        return self.arr[index]
 
     def resize(self, new_capacity):
         """
