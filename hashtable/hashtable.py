@@ -8,7 +8,6 @@ class HashTableEntry:
         self.value = value
         self.next = None
 
-
 # Hash table can't have fewer than this many slots
 MIN_CAPACITY = 8
 
@@ -18,7 +17,7 @@ class HashTable:
     A hash table that with `capacity` buckets
     that accepts string keys
 
-    Implement this.
+    Implement this.`
     """
 
     def __init__(self, capacity):
@@ -63,11 +62,12 @@ class HashTable:
 
         Implement this, and/or FNV-1.
         """
-        # Your code here
-        hash = 0
 
-        for char in key:
-            hash += ord(char)
+        ##### Your code here
+        hash = 5381
+
+        for c in key:
+            hash = (hash * 33) + ord(c)
 
         return hash
 
@@ -81,20 +81,42 @@ class HashTable:
 
     # __setitem__
     def put(self, key, value):
-        """
-        Store the value with the given key.
-
-        Hash collisions should be handled with Linked List Chaining.
-
-        Implement this.
-        """
-
-        ##### Your code here
+        '''
+        Cases:
+        1. Index is empty -> contains None
+        2. Index is not empty
+            - check if key is there, then update the value.
+            - else key isn't there, add the key and value in a new node.
+        '''
 
         # find the index
-        index = self.hash_index(key)
-        # set the value to that index
-        self.arr[index] = value
+        idx = self.hash_index(key)
+
+
+        # index empty
+        if self.arr[idx] is None:
+            # create a new LL node
+            self.arr[idx] = HashTableEntry(key,value)
+        # index not empty
+        else:
+            # loop through LL
+            itr = self.arr[idx]
+            while itr:
+                if itr.key == key:
+                    # UPDATE
+                    itr.value = value
+                    return
+                if itr.next == None:
+                    break
+
+                itr = itr.next
+
+            # ADD NEW NODE
+            itr.next = HashTableEntry(key, value)
+
+
+
+
 
     def delete(self, key):
         """
@@ -109,8 +131,12 @@ class HashTable:
 
         # find the index
         index = self.hash_index(key)
-        # set value to None at found index
-        self.arr[index] = None
+
+        itr = self.arr[index]
+        while itr:
+            # key doesn't exist > return None
+            # key exists > del
+            itr = itr.next
 
     # __getitem__
     def get(self, key):
@@ -126,8 +152,17 @@ class HashTable:
 
         # find the index
         index = self.hash_index(key)
-        # return the value at the found index
-        return self.arr[index]
+
+        itr = self.arr[index]
+
+        while itr:
+            if itr.key == key:
+                return itr.value
+
+            itr = itr.next
+
+        return None
+
 
     def resize(self, new_capacity):
         """
@@ -140,10 +175,12 @@ class HashTable:
         pass
 
 
+
 if __name__ == "__main__":
     ht = HashTable(8)
 
-    ht.put("line_1", "'Twas brillig, and the slithy toves")
+# 12 entries
+    ht.put("line_1", "Twas brillig, and the slithy toves")
     ht.put("line_2", "Did gyre and gimble in the wabe:")
     ht.put("line_3", "All mimsy were the borogoves,")
     ht.put("line_4", "And the mome raths outgrabe.")
