@@ -132,11 +132,24 @@ class HashTable:
         # find the index
         index = self.hash_index(key)
 
-        itr = self.arr[index]
-        while itr:
-            # key doesn't exist > return None
-            # key exists > del
-            itr = itr.next
+        cur = prev = self.arr[index]
+
+        # empty index
+        if cur is None:
+            return
+
+        # if the first node in the LL holds the key, have the index point to the next node... this severs the connection
+        if cur.key == key:
+            self.arr[index] = cur.next
+        else:
+            # otherwise move to the next node in the LL
+            cur = cur.next
+            while cur:
+                if cur.key == key:
+                    prev.next = cur.next
+                    break
+                else:
+                    cur, prev = cur.next, prev.next
 
     # __getitem__
     def get(self, key):
@@ -181,18 +194,18 @@ if __name__ == "__main__":
 
 # 12 entries
     ht.put("line_1", "Twas brillig, and the slithy toves")
-    ht.put("line_2", "Did gyre and gimble in the wabe:")
-    ht.put("line_3", "All mimsy were the borogoves,")
-    ht.put("line_4", "And the mome raths outgrabe.")
-    ht.put("line_5", '"Beware the Jabberwock, my son!')
-    ht.put("line_6", "The jaws that bite, the claws that catch!")
-    ht.put("line_7", "Beware the Jubjub bird, and shun")
-    ht.put("line_8", 'The frumious Bandersnatch!"')
-    ht.put("line_9", "He took his vorpal sword in hand;")
-    ht.put("line_10", "Long time the manxome foe he sought--")
-    ht.put("line_11", "So rested he by the Tumtum tree")
-    ht.put("line_12", "And stood awhile in thought.")
-
+    # ht.put("line_2", "Did gyre and gimble in the wabe:")
+    # ht.put("line_3", "All mimsy were the borogoves,")
+    # ht.put("line_4", "And the mome raths outgrabe.")
+    # ht.put("line_5", '"Beware the Jabberwock, my son!')
+    # ht.put("line_6", "The jaws that bite, the claws that catch!")
+    # ht.put("line_7", "Beware the Jubjub bird, and shun")
+    # ht.put("line_8", 'The frumious Bandersnatch!"')
+    # ht.put("line_9", "He took his vorpal sword in hand;")
+    # ht.put("line_10", "Long time the manxome foe he sought--")
+    # ht.put("line_11", "So rested he by the Tumtum tree")
+    # ht.put("line_12", "And stood awhile in thought.")
+    ht.delete('line_1')
     print("")
 
     # Test storing beyond capacity
